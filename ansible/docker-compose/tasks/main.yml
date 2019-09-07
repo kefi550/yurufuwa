@@ -14,6 +14,6 @@
   become: false
   lineinfile:
     path: ~/docker-compose/inputs.conf
-    regexp: '^host='
-    line: '^host={{ ansible_hostname }}'
+    regexp: 'host.*=.*'
+    line: 'host={{ ansible_hostname }}'
 

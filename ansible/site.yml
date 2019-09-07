@@ -1,6 +1,5 @@
 - hosts: all
   become: true
-  remote_user: isucon
   vars:
     remote_user: isucon
   roles:

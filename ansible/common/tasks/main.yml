@@ -10,22 +10,18 @@
 # ssh config
 - block: 
   - name: check authorized_keys
-    become: false
+    remote_user: "{{ remote_user }}"
     local_action: command cat {{ inventory_dir }}/../files/authorized_keys
     register: keys
     changed_when: false
   
-  - name: debug
-    debug:
-      msg: "{{ keys.stdout }}"
-
   - name: insert authorized_keys for root
     blockinfile:
       path: ~/.ssh/authorized_keys
       block: "{{ keys.stdout }}"
 
   - name: insert authorized_keys for user
-    become: false
+    remote_user: "{{ remote_user }}"
     blockinfile:
       path: ~/.ssh/authorized_keys
       block: "{{ keys.stdout }}"
