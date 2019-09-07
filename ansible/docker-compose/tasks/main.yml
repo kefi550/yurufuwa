@@ -5,15 +5,17 @@
     mode: '0755'
 
 - name: copy docker-compose.yaml to host
-  become: false
+  become: yes
+  become_user: "{{ remote_user }}"
   copy:
     src: ../../../docker-compose/
     dest: ~/docker-compose
 
 - name: rename host in inputs.conf
-  become: false
+  become: yes
+  become_user: "{{ remote_user }}"
   lineinfile:
     path: ~/docker-compose/inputs.conf
     regexp: 'host.*=.*'
-    line: 'host={{ ansible_hostname }}'
+    line: 'host={{ inventory_hostname }}'
 

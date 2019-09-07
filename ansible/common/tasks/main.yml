@@ -1,8 +1,4 @@
-#- name: include
-#  include_vars:
-#    file: "{{ inventory_dir }}/../files/authorized_keys"
-#    name: keys
-
+--- 
 - name: change hostname
   hostname:
     name: "{{ inventory_hostname }}"
@@ -10,7 +6,7 @@
 # ssh config
 - block: 
   - name: check authorized_keys
-    remote_user: "{{ remote_user }}"
+    become: no
     local_action: command cat {{ inventory_dir }}/../files/authorized_keys
     register: keys
     changed_when: false
@@ -23,8 +19,12 @@
   - name: insert authorized_keys for user
     remote_user: "{{ remote_user }}"
     blockinfile:
-      path: ~/.ssh/authorized_keys
+      path: "/home/{{ remote_user }}/.ssh/authorized_keys"
+      owner: "{{ remote_user }}"
+      group: "{{ remote_user }}"
       block: "{{ keys.stdout }}"
+      create: yes
+      mode: 0700
 
   - name: restart sshd
     systemd:
