@@ -17,7 +17,6 @@
       block: "{{ keys.stdout }}"
 
   - name: insert authorized_keys for user
-    remote_user: "{{ remote_user }}"
     blockinfile:
       path: "/home/{{ remote_user }}/.ssh/authorized_keys"
       owner: "{{ remote_user }}"
