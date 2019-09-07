@@ -10,8 +10,7 @@ services:
     security_opt:
       - apparmor:unconfined
     volumes:
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
+      - /sys:/sys:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
   splunk-uf:
     image: splunk/universalforwarder
