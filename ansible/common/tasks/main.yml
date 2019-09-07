@@ -1,0 +1,53 @@
+#- name: include
+#  include_vars:
+#    file: "{{ inventory_dir }}/../files/authorized_keys"
+#    name: keys
+
+- name: change hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+# ssh config
+- block: 
+  - name: check authorized_keys
+    become: false
+    local_action: command cat {{ inventory_dir }}/../files/authorized_keys
+    register: keys
+    changed_when: false
+  
+  - name: debug
+    debug:
+      msg: "{{ keys.stdout }}"
+
+  - name: insert authorized_keys for root
+    blockinfile:
+      path: ~/.ssh/authorized_keys
+      block: "{{ keys.stdout }}"
+
+  - name: insert authorized_keys for user
+    become: false
+    blockinfile:
+      path: ~/.ssh/authorized_keys
+      block: "{{ keys.stdout }}"
+
+  - name: restart sshd
+    systemd:
+      name: sshd
+      state: restarted
+
+- name: install common packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - tcpdump
+    - zip
+    - unzip
+    - vim
+
+- name: install alp
+  unarchive:
+    src: https://github.com/tkuchiki/alp/releases/download/v0.3.1/alp_linux_amd64.zip
+    dest: /usr/local/bin/
+    remote_src: yes
+    creates: /usr/local/bin/alp

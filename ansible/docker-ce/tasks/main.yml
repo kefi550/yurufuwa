@@ -1,0 +1,51 @@
+- name: Remove docker packages
+  apt:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - "docker"
+    - "docker-common"
+    - "docker-client"
+    - "docker-engine"
+
+- name: install require packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "apt-transport-https"
+    - "ca-certificates"
+    - "curl"
+    - "software-properties-common"
+
+- name: inport repository gpg key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+
+- name: add repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+
+- name: install docker-ce
+  apt:
+    name: docker-ce
+    state: present
+    update_cache: yes
+
+- name: enable docker
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: add user to docker group
+  user:
+    #name: "{{ lookup('env','USER') }}"
+    name: "{{ remote_user }}"
+    group: docker
+    groups: docker
+    append: yes
+  notify: restart_docker
