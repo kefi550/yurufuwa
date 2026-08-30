@@ -11,11 +11,11 @@
     src: ../../../docker-compose/
     dest: ~/docker-compose
 
-- name: rename host in inputs.conf
-  become: yes
-  become_user: "{{ remote_user }}"
-  lineinfile:
-    path: ~/docker-compose/inputs.conf
-    regexp: 'host.*=.*'
-    line: 'host={{ inventory_hostname }}'
-
+      #- name: rename host in inputs.conf
+      #  become: yes
+      #  become_user: "{{ remote_user }}"
+      #  lineinfile:
+      #    path: ~/docker-compose/inputs.conf
+      #    regexp: 'host.*=.*'
+      #    line: 'host={{ inventory_hostname }}'
+      #

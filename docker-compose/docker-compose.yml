@@ -12,15 +12,15 @@ services:
     volumes:
       - /sys:/sys:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-  splunk-uf:
-    image: splunk/universalforwarder
-    hostname: example.com # set to fqdn of host
-    ports:
-      - 9997:9997
-    environment:
-      - "SPLUNK_START_ARGS=--accept-license"
-      - "SPLUNK_PASSWORD=onkenwild"
-    volumes:
-      - /var/log:/var/log:ro
-      - ./inputs.conf:/opt/splunkforwarder/etc/system/local/inputs.conf
-      - ./outputs.conf:/opt/splunkforwarder/etc/system/local/outputs.conf
+        #  splunk-uf:
+        #    image: splunk/universalforwarder
+        #    hostname: example.com # set to fqdn of host
+        #    ports:
+        #      - 9997:9997
+        #    environment:
+        #      - "SPLUNK_START_ARGS=--accept-license"
+        #      - "SPLUNK_PASSWORD=onkenwild"
+        #    volumes:
+        #      - /var/log:/var/log:ro
+        #      - ./inputs.conf:/opt/splunkforwarder/etc/system/local/inputs.conf
+        #      - ./outputs.conf:/opt/splunkforwarder/etc/system/local/outputs.conf
