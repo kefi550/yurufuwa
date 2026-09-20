@@ -5,3 +5,8 @@
   roles:
     - common
     - docker-ce
+  tasks:
+    - name: copy compose.yaml to host
+      copy:
+        src: ./files/compose.yaml
+        dest: "/home/{{ remote_user }}/"
