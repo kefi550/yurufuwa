@@ -7,7 +7,7 @@
 - block: 
   - name: check authorized_keys
     become: no
-    local_action: command cat {{ inventory_dir }}/../files/authorized_keys
+    local_action: command cat {{ inventory_dir }}/files/authorized_keys
     register: keys
     changed_when: false
   
@@ -27,10 +27,11 @@
 
   - name: restart sshd
     systemd:
-      name: sshd
+      name: ssh
       state: restarted
 
 - name: install common packages
+  become: yes
   apt:
     name: "{{ item }}"
     state: present

@@ -1,0 +1,2 @@
+# copy pub keys to inset to authorized_keys
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH3egtuGUUTqiyYh+j/FUn9BqcdJNfZy8bXn3d6vr/lz kefi
